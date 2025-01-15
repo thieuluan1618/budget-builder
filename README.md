@@ -1,5 +1,3 @@
-# BudgetBuilder
-
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.7.
 
 ## Development server
@@ -11,6 +9,13 @@ ng serve
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+## Live Demo
+
+You can try the live demo of this project at the following link:
+
+[Live Demo - Budget Builder](https://budget-builder.netlify.app/)
+
 
 ## Code scaffolding
 
