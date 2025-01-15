@@ -19,6 +19,19 @@
     </div>
 
     <table class="w-full border-collapse">
+      <colgroup>
+        <col class="w-60 min-w-60 max-w-60" />
+        <col
+          [span]="availableDates.length"
+          [ngStyle]="{
+            width: 'calc((100% - 17rem) / ' + availableDates.length + ')',
+            'max-width': 'calc((100% - 17rem) / ' + availableDates.length + ')',
+            'min-width': '65px',
+          }"
+        />
+        <col class="w-8 min-w-8 max-w-8" />
+      </colgroup>
+
       <thead>
         <tr>
           <th class="border border-gray-300 p-2 bg-gray-50 w-64">Category</th>
@@ -243,26 +256,6 @@
           </td>
         </tr>
 
-        <!--        <tr class="text-green-600">-->
-        <!--          <td class="border border-gray-300 p-2 font-semibold">Total Income</td>-->
-        <!--          <td-->
-        <!--            *ngFor="let month of availableDates"-->
-        <!--            class="border border-gray-300 p-2 text-right"-->
-        <!--          >-->
-        <!--            {{ totalIncome() | currency: "USD" : "symbol" : "1.0-0" }}-->
-        <!--          </td>-->
-        <!--        </tr>-->
-        <!--        <tr class="text-red-600">-->
-        <!--          <td class="border border-gray-300 p-2 font-semibold">-->
-        <!--            Total Expenses-->
-        <!--          </td>-->
-        <!--          <td-->
-        <!--            *ngFor="let month of availableDates"-->
-        <!--            class="border border-gray-300 p-2 text-right text-red-600"-->
-        <!--          >-->
-        <!--            {{ totalExpense() | currency: "USD" : "symbol" : "1.0-0" }}-->
-        <!--          </td>-->
-        <!--        </tr>-->
         <tr>
           <td class="border border-gray-300 p-2 font-semibold">
             Profit / Loss
@@ -275,6 +268,7 @@
           >
             {{ getBalance(month) | currency: "USD" : "symbol" : "1.0-0" }}
           </td>
+          <td class="border border-gray-300 p-2"></td>
         </tr>
         <tr>
           <td class="border border-gray-300 p-2 font-semibold">
@@ -291,6 +285,7 @@
                   | currency: "USD" : "symbol" : "1.0-0")
             }}
           </td>
+          <td class="border border-gray-300 p-2"></td>
         </tr>
         <tr>
           <td class="border border-gray-300 p-2 font-semibold">
@@ -304,6 +299,7 @@
               getClosingBalance(month) | currency: "USD" : "symbol" : "1.0-0"
             }}
           </td>
+          <td class="border border-gray-300 p-2"></td>
         </tr>
       </tbody>
     </table>

@@ -8,7 +8,13 @@ import {
   signal,
   ViewChildren,
 } from '@angular/core';
-import { CurrencyPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
+import {
+  CurrencyPipe,
+  DatePipe,
+  NgForOf,
+  NgIf,
+  NgStyle,
+} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DigitOnlyModule } from '@uiowa/digit-only';
 
@@ -47,6 +53,7 @@ interface CellPosition {
     DatePipe,
     NgIf,
     DigitOnlyModule,
+    NgStyle,
   ],
 })
 export class BudgetBuilderComponent implements OnInit, AfterViewInit {
