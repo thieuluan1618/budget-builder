@@ -189,29 +189,35 @@ export class BudgetBuilderComponent implements OnInit, AfterViewInit {
     categoryId: string,
   ) {
     event.preventDefault();
+    const x = event.clientX;
+    const y = event.clientY;
+
+    const spaceRight = window.innerWidth - x;
+    const spaceBottom = window.innerHeight - y;
+
+    let finalX = x;
+    let finalY = y;
+
+    const menuWidth = 150;
+    const menuHeight = 40;
+
+    if (spaceRight < menuWidth) {
+      finalX = x - menuWidth;
+    }
+
+    if (spaceBottom < menuHeight) {
+      finalY = y - menuHeight;
+    }
 
     this.contextMenu = {
       show: true,
-      x: event.pageX,
-      y: event.pageY,
+      x: finalX,
+      y: finalY,
       rowId: cellId,
       sectionId,
       categoryId,
       date,
     };
-
-    setTimeout(() => {
-      const menu = document.querySelector('.context-menu') as HTMLElement;
-      if (menu) {
-        const rect = menu.getBoundingClientRect();
-        if (rect.right > window.innerWidth) {
-          this.contextMenu.x = window.innerWidth - rect.width - 5;
-        }
-        if (rect.bottom > window.innerHeight) {
-          this.contextMenu.y = window.innerHeight - rect.height - 5;
-        }
-      }
-    });
   }
 
   closeContextMenu() {
