@@ -57,11 +57,21 @@ interface CellPosition {
   ],
 })
 export class BudgetBuilderComponent implements OnInit, AfterViewInit {
+  @ViewChildren('categoryInput') categoryInputs!: QueryList<ElementRef>;
+
   startDate = '2024-01';
   endDate = '2024-12';
   availableDates: string[] = [];
 
-  @ViewChildren('categoryInput') categoryInputs!: QueryList<ElementRef>;
+  contextMenu = {
+    show: false,
+    x: 0,
+    y: 0,
+    rowId: '',
+    sectionId: '',
+    categoryId: '',
+    date: '', // TODO remove,
+  };
 
   sections = signal<Section[]>([
     {
@@ -158,6 +168,79 @@ export class BudgetBuilderComponent implements OnInit, AfterViewInit {
     const nextInput = document.getElementById(`input-${nextRow}-${nextCol}`);
     if (nextInput) {
       (nextInput as HTMLInputElement).focus();
+    }
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.closeContextMenu();
+  }
+
+  @HostListener('window:scroll')
+  onScroll() {
+    this.closeContextMenu();
+  }
+
+  onRightClick(
+    event: MouseEvent,
+    cellId: string,
+    date: string,
+    sectionId: string,
+    categoryId: string,
+  ) {
+    event.preventDefault();
+
+    this.contextMenu = {
+      show: true,
+      x: event.pageX,
+      y: event.pageY,
+      rowId: cellId,
+      sectionId,
+      categoryId,
+      date,
+    };
+
+    setTimeout(() => {
+      const menu = document.querySelector('.context-menu') as HTMLElement;
+      if (menu) {
+        const rect = menu.getBoundingClientRect();
+        if (rect.right > window.innerWidth) {
+          this.contextMenu.x = window.innerWidth - rect.width - 5;
+        }
+        if (rect.bottom > window.innerHeight) {
+          this.contextMenu.y = window.innerHeight - rect.height - 5;
+        }
+      }
+    });
+  }
+
+  closeContextMenu() {
+    this.contextMenu.show = false;
+  }
+
+  applyValueToAll() {
+    this.closeContextMenu();
+
+    const sourceEle = document.getElementById(this.contextMenu.rowId);
+    const applyValue = (sourceEle as HTMLInputElement)?.value;
+    if (!applyValue) return;
+
+    for (let i = 1; i <= this.availableDates.length; i++) {
+      const cellId = `${this.contextMenu.rowId.slice(0, -1)}${i + 1}`;
+
+      if (cellId !== this.contextMenu.rowId) {
+        const cellSameRow = document.getElementById(cellId);
+        if (!cellSameRow) return;
+
+        (cellSameRow as HTMLInputElement).value = applyValue;
+        const { sectionId, categoryId } = this.contextMenu;
+        this.updateAmount(
+          sectionId,
+          categoryId,
+          this.availableDates[i - 1],
+          +applyValue,
+        );
+      }
     }
   }
 
